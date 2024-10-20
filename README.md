@@ -18,6 +18,7 @@
 ## ❗ Info
 
 Read-only external cheat Based on AimStar
+
 基于AimStar的CS2外部只读作弊
 
 ## 📸 Preview
