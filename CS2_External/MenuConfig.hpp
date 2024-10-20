@@ -45,7 +45,7 @@ namespace MenuConfig
 	inline int Ping = 0;
 	inline bool defaultConfig = false;
 	inline int Language = 0;
-	inline int Theme = 3;
+	inline int Theme = 4;
 	inline int MaxRenderFPS = 1200;
 
 	inline std::vector<std::pair<CEntity, DWORD64>> ValidEntity;
@@ -101,17 +101,17 @@ namespace MenuConfig
 
 namespace ESPConfig
 {
-	inline bool ESPenabled = true;
+	inline bool ESPenabled = false;
 	inline bool AlwaysActive = false;
 	inline bool AmmoBar = false;
 	inline bool ShowScoping = false;
-	inline bool ShowBoneESP = true;
-	inline bool ShowBoxESP = true;
+	inline bool ShowBoneESP = false;
+	inline bool ShowBoxESP = false;
 	inline bool winniethepool = false;
-	inline bool ShowHealthBar = true;
+	inline bool ShowHealthBar = false;
 	inline bool ShowWeaponESP = false;
 	inline bool ShowEyeRay = false;
-	inline bool ShowPlayerName = true;
+	inline bool ShowPlayerName = false;
 	inline bool DrawFov = false;
 	inline bool ShowDistance = false;
 	inline bool ShowHealthNum = false;
@@ -123,7 +123,7 @@ namespace ESPConfig
 	inline bool FilledBox = false;
 	inline bool FilledVisBox = false;
 	inline bool MultiColor = false;
-	inline bool OutLine = true;
+	inline bool OutLine = false;
 	inline bool ShowIsScoped = false;
 	// 0: normal 1: Flat
 	inline int HeadBoxStyle = 0;
@@ -135,11 +135,11 @@ namespace ESPConfig
 	// 0: Top 1: Center 2: Bottom
 	inline int LinePos = 0;
 
-	inline ImColor BoneColor = ImColor(0, 255, 255, 255);
-	inline ImColor BoxColor = ImColor(255, 80, 0, 255);
+	inline ImColor BoneColor = ImColor(255, 255, 255, 255);
+	inline ImColor BoxColor = ImColor(255, 255, 255, 255);
 	inline ImColor EyeRayColor = ImColor(255, 0, 0, 255);
 	inline ImColor HeadBoxColor = ImColor(255, 255, 255, 255);
-	inline ImColor VisibleColor = ImColor(255, 196, 0, 255);
+	inline ImColor VisibleColor = ImColor(255, 0, 0, 255);
 	inline ImColor FilledColor = ImColor(255, 255, 255, 128);
 	inline ImColor BoxFilledVisColor = ImColor(0, 0, 255, 255);
 	inline ImColor FilledColor2 = ImColor(0, 255, 102, 255);

@@ -27,7 +27,7 @@ DWORD64 SearchOffsets(std::string Signature, DWORD64 ModuleAddress)
 bool Offset::UpdateOffsets()
 {
 
-	std::string offsetPath = MenuConfig::path + XorStr("offsets.yaml");
+	std::string offsetPath = MenuConfig::path + XorStr("\\offsets.yaml");
 
 	if (!fs::exists(offsetPath)) {
 		std::cerr << XorStr("Failed to load offsets file") << std::endl;

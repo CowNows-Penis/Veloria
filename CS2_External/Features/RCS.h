@@ -7,7 +7,7 @@
 namespace RCS
 {
 	inline int RCSBullet = 0;
-	inline Vec2 RCSScale = { 1.f,1.f };
+	inline Vec2 RCSScale = { 2.f,2.f };
 
 	inline void UpdateAngles(const CEntity& Local, Vec2& Angles)
 	{

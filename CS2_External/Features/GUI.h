@@ -15,9 +15,7 @@
 #include "..\Resources\Images.h"
 #include "../Utils/Ext-String.hpp"
 
-ID3D11ShaderResourceView* AS_Logo = NULL;
-ID3D11ShaderResourceView* NL_Logo = NULL;
-ID3D11ShaderResourceView* AW_Logo = NULL;
+ID3D11ShaderResourceView* Veloria = NULL;
 ID3D11ShaderResourceView* MenuButton1 = NULL;
 ID3D11ShaderResourceView* MenuButton2 = NULL;
 ID3D11ShaderResourceView* MenuButton3 = NULL;
@@ -26,8 +24,6 @@ ID3D11ShaderResourceView* HitboxImage = NULL;
 ID3D11ShaderResourceView* AvatarImage = NULL;
 
 int LogoW = 0, LogoH = 0;
-int LogoW2 = 0, LogoH2 = 0;
-int LogoW3 = 0, LogoH3 = 0;
 int buttonW = 0;
 int buttonH = 0;
 int hitboxW = 0, hitboxH = 0;
@@ -68,7 +64,7 @@ bool ImGui::HotKey(const char* szLabel, unsigned int* pValue)
 	//COPY OF GUI::AlignRight(buttonWidth);
 	float ColumnContentWidth = ImGui::GetColumnWidth() - ImGui::GetStyle().ItemSpacing.x;
 	float buttonPosX = ImGui::GetColumnOffset() + ColumnContentWidth - buttonWidth;
-	ImGui::SetCursorPosX(buttonPosX);
+	// ImGui::SetCursorPosX(buttonPosX);
 	if (ImGui::Button(szBuffer))
 	{
 		ImGui::OpenPopup(szLabel);
@@ -178,21 +174,18 @@ namespace GUI
 	}//ONETIME USING..
 	void LoadImages()
 	{
-		if (AS_Logo == NULL)
+		if (AvatarImage == NULL)
 		{
 			// Updater::CheckForUpdates();
-			Gui.LoadTextureFromMemory(Images::AS_Logo, sizeof Images::AS_Logo, &AS_Logo, &LogoW, &LogoH);
-			Gui.LoadTextureFromMemory(Images::NL_Logo, sizeof Images::NL_Logo, &NL_Logo, &LogoW2, &LogoH2);
-			Gui.LoadTextureFromMemory(Images::AW_Logo, sizeof Images::AW_Logo, &AW_Logo, &LogoW3, &LogoH3);
 			Gui.LoadTextureFromMemory(Images::VisualButton, sizeof Images::VisualButton, &MenuButton1, &buttonW, &buttonH);
 			Gui.LoadTextureFromMemory(Images::AimbotButton, sizeof Images::AimbotButton, &MenuButton2, &buttonW, &buttonH);
 			Gui.LoadTextureFromMemory(Images::MiscButton, sizeof Images::MiscButton, &MenuButton3, &buttonW, &buttonH);
 			Gui.LoadTextureFromMemory(Images::ConfigButton, sizeof Images::ConfigButton, &MenuButton4, &buttonW, &buttonH);
 			Gui.LoadTextureFromMemory(Images::ZekamashiImg, sizeof Images::ZekamashiImg, &HitboxImage, &hitboxW, &hitboxH);
 			StyleChanger::UpdateSkin(MenuConfig::Theme);
-		}
-		if (AvatarImage == NULL)
 			Gui.LoadTextureFromFile(wstringToChar(MenuConfig::AvatarPath), &AvatarImage, &avatarW, &avatarH);
+			Gui.LoadTextureFromMemory(Images::Veloria, sizeof Images::Veloria, &Veloria, &LogoW, &LogoH);
+		}
 	}
 
 	// Components Settings
@@ -303,6 +296,7 @@ namespace GUI
 
 	void NewGui()
 	{
+		
 		std::lock_guard<std::mutex> lock(std::mutex);
 		LoadImages();
 		ImTextureID ImageID;
@@ -310,39 +304,21 @@ namespace GUI
 		switch (MenuConfig::Theme)
 		{
 		case 0:
-			ImageID = (void*)AS_Logo;
-			LogoSize = ImVec2(LogoW, LogoH);
-			LogoPos = MenuConfig::WCS.LogoPos;
 			MenuConfig::ButtonBorderColor = MenuConfig::WCS.BorderColor_Yellow;
 			break;
 		case 1:
-			ImageID = (void*)NL_Logo;
-			LogoSize = ImVec2(LogoW2, LogoH2);
-			LogoPos = MenuConfig::WCS.Logo2Pos;
 			MenuConfig::ButtonBorderColor = MenuConfig::WCS.BorderColor_Purple;
 			break;
 		case 2:
-			ImageID = (void*)AW_Logo;
-			LogoSize = ImVec2(LogoW3, LogoH3);
-			LogoPos = MenuConfig::WCS.Logo3Pos;
 			MenuConfig::ButtonBorderColor = MenuConfig::WCS.BorderColor_Red;
 			break;
 		case 3:
-			ImageID = (void*)AS_Logo;
-			LogoSize = ImVec2(LogoW, LogoH);
-			LogoPos = MenuConfig::WCS.LogoPos;
 			MenuConfig::ButtonBorderColor = MenuConfig::WCS.BorderColor_Light;
 			break;
 		case 4:
-			ImageID = (void*)AS_Logo;
-			LogoSize = ImVec2(LogoW, LogoH);
-			LogoPos = MenuConfig::WCS.LogoPos;
 			MenuConfig::ButtonBorderColor = MenuConfig::WCS.BorderColor_Fanta;
 			break;
 		default:
-			ImageID = (void*)AS_Logo;
-			LogoSize = ImVec2(LogoW, LogoH);
-			LogoPos = MenuConfig::WCS.LogoPos;
 			MenuConfig::ButtonBorderColor = MenuConfig::WCS.BorderColor_Yellow;
 			break;
 		}
@@ -351,15 +327,60 @@ namespace GUI
 		char TempText[256];
 		ImGuiWindowFlags Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
 		ImGui::SetNextWindowPos({ (ImGui::GetIO().DisplaySize.x - 851.0f) / 2.0f, (ImGui::GetIO().DisplaySize.y - 514.0f) / 2.0f }, ImGuiCond_Once);
+
+		ImGui::Begin("Veloria", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+		{
+			ImGui::BeginTabBar("Cheat");
+			// esp menu
+			if (ImGui::BeginTabItem(u8"透视设定"))
+			{
+				ImGui::Checkbox(u8"总开关", &ESPConfig::ESPenabled);
+				ImGui::Text(u8"热键");
+				ImGui::SameLine();
+				ImGui::HotKey(u8"###热键", &ESP::HotKey);
+				ImGui::Checkbox(u8"保持开启", &ESPConfig::AlwaysActive);
+				ImGui::Checkbox(u8"方框", &ESPConfig::ShowBoxESP);
+				ImGui::Checkbox(u8"骨骼", &ESPConfig::ShowBoneESP);
+				ImGui::Checkbox(u8"头部方框", &ESPConfig::ShowHeadBox);
+				ImGui::Checkbox(u8"生命值", &ESPConfig::ShowHealthBar);
+				ImGui::Checkbox(u8"护甲值", &ESPConfig::ArmorBar);
+				ImGui::Checkbox(u8"武器", &ESPConfig::ShowWeaponESP);
+				ImGui::Checkbox(u8"弹药", &ESPConfig::AmmoBar);
+				ImGui::Checkbox(u8"玩家名", &ESPConfig::ShowPlayerName);
+				ImGui::EndTabItem();
+			}
+			// Shot menu
+			if (ImGui::BeginTabItem(u8"辅助设置"))
+			{
+				ImGui::Checkbox(u8"自动压枪", &MenuConfig::RCS);
+				ImGui::Checkbox(u8"外置准星", &CrosshairsCFG::ShowCrossHair);
+				ImGui::Checkbox(u8"快速急停", &MiscCFG::FastStop);
+				ImGui::Checkbox(u8"命中提示", &MiscCFG::HitMarker);
+
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem(u8"其他信息"))
+			{
+				ImGui::Image((void*)Veloria, ImVec2(230, 230));
+				ImGui::TextColored(ImColor(248, 191, 47, 255), "Veloria v1.0");
+				ImGui::NewLine();
+				CircleImage((void*)AvatarImage, 40);
+				ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 15 + 48);
+				ImGui::SameLine();
+				ImGui::Text(XorStr(u8"用户:\n%s"), MenuConfig::UserName);
+				ImGui::Text(u8"到期时间: 2099-1-1");
+			}
+
+		}ImGui::End();
+
+
+		/*
 		ImGui::SetNextWindowSize({ 851,514 });
 		ImGui::Begin(XorStr("AimStar"), nullptr, Flags);
 		{
 			// Render logo image
 			vecMenuPos = ImGui::GetWindowPos();
-			ImGui::SetCursorPos(LogoPos);
-			ImGui::Image(ImageID, LogoSize);
 			ImGui::SetCursorPos(ImVec2(20,5));
-			ImGui::TextColored(ImColor(255, 255, 255, 45), MenuConfig::HWID.substr(MenuConfig::HWID.length() - 16).c_str());
 
 			// Render button and frame
 			ImGui::SetCursorPos(MenuConfig::WCS.Button1Pos);
@@ -418,14 +439,6 @@ namespace GUI
 			ImGui::SameLine();
 			ImGui::Text(XorStr("User:\n%s"), MenuConfig::UserName);
 			ImGui::EndChild();
-
-
-			ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 20, 85));
-#ifdef USERMODE
-			ImGui::Text(XorStr("Ring3-%s"), __DATE__);
-#else
-			ImGui::Text(XorStr("Kernel-%s"), __DATE__);
-#endif // USERMODE
 			
 			ImGui::SetCursorPos(MenuConfig::WCS.ChildPos);
 			
@@ -570,13 +583,7 @@ namespace GUI
 						ImGui::TextDisabled(Lang::AimbotText.HotKeyList);
 						ImGui::SameLine();
 						ImGui::HotKey("Hotkey##aimbothotkey", &AimControl::HotKey);
-						/*
 
-						if (ImGui::Combo(XorStr("###AimKey"), &MenuConfig::AimBotHotKey, XorStr("LALT\0LBUTTON\0RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL\0")))
-						{
-							AimControl::SetHotKey(MenuConfig::AimBotHotKey);
-						}
-						*/
 						if (!AimControl::Rage)
 							PutSliderInt(Lang::AimbotText.BulletSlider, 10.f, &AimControl::AimBullet, &BulletMin, &BulletMax, "%d");
 						PutSwitch(Lang::AimbotText.Toggle, 10.f, ImGui::GetFrameHeight() * 1.7, &MenuConfig::AimToggleMode);
@@ -594,29 +601,7 @@ namespace GUI
 							PutSliderFloat(Lang::AimbotText.SmoothSlider, 10.f, &AimControl::Smooth, &SmoothMin, &SmoothMax, "%.1f");
 						}
 						ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.f);
-						/*
-						ImGui::SameLine();
-						if (ImGui::Combo("###AimPos", &MenuConfig::AimPosition, "Head\0Neck\0Chest\0Penis\0"))
-						{
-							switch (MenuConfig::AimPosition)
-							{
-							case 0:
-								MenuConfig::AimPositionIndex = BONEINDEX::head;
-								break;
-							case 1:
-								MenuConfig::AimPositionIndex = BONEINDEX::neck_0;
-								break;
-							case 2:
-								MenuConfig::AimPositionIndex = BONEINDEX::spine_1;
-								break;
-							case 3:
-								MenuConfig::AimPositionIndex = BONEINDEX::pelvis;
-								break;
-							default:
-								break;
-							}
-						}
-						*/
+
 					}
 					ImGui::NextColumn();
 					ImGui::SetCursorPosY(24.f);
@@ -867,7 +852,7 @@ namespace GUI
 					ImGui::Columns(1);
 				}
 			} ImGui::EndChild();
-		} ImGui::End();
+		} ImGui::End();*/
 
 		ImVec2 mousePos = ImGui::GetMousePos();
 		float interpolationFactorX = 0.035f;
