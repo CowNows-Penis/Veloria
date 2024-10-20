@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/CowNows-Penis/Xoenix/master/Veloria.png" alt="icon" style="width: 100px; height: 100px"><br>
+  <img src="https://raw.githubusercontent.com/CowNows-Penis/Xoenix/master/Veloria.png" alt="icon" style="width: 256px; height: 256px"><br>
   Veloria
 </h1>
 <p align="center">
