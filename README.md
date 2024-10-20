@@ -10,12 +10,15 @@
 
 
 <h4 align="center">
-  ⛔ USE AT YOUR OWN RISK ⛔
+  ⛔ Use at your own risk ⛔
+  
+  ⛔ 使用风险自负 ⛔
 </h4>
 
 ## ❗ Info
 
 Read-only external cheat Based on AimStar
+基于AimStar的CS2外部只读作弊
 
 ## 📸 Preview
 ![](/Image2.png)
