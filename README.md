@@ -1,6 +1,6 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/CowNows-Penis/Xoenix/master/Xoenix.jpg" alt="icon" style="width: 100px; height: 100px"><br>
-  Xeonix
+  <img src="https://raw.githubusercontent.com/CowNows-Penis/Xoenix/master/Veloria.png" alt="icon" style="width: 100px; height: 100px"><br>
+  Veloria
 </h1>
 <p align="center">
 <a href="https://en.wikipedia.org/wiki/C%2B%2B"><img src="https://img.shields.io/badge/build-C++-blue?style=flat&label=Language&logo=visualstudio&logoColor=%231082c3"></a>
