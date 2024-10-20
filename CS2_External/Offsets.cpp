@@ -27,20 +27,11 @@ DWORD64 SearchOffsets(std::string Signature, DWORD64 ModuleAddress)
 bool Offset::UpdateOffsets()
 {
 
-	std::string offsetPath = MenuConfig::path + XorStr("\\Offsets\\offsets.yaml");
+	std::string offsetPath = MenuConfig::path + XorStr("offsets.yaml");
 
 	if (!fs::exists(offsetPath)) {
-		if (fs::create_directories(MenuConfig::path + XorStr("\\Offsets")))
-		{
-			std::cout << XorStr("[Info] offsets folder created: ") << MenuConfig::path + XorStr("\\Offsets") << std::endl;
-			std::cout << XorStr("       please visit https://aimstar.tkm.icu/updater to get the latest offset file.") << std::endl;
-		}
-		else
-		{
-			std::cerr << XorStr("Failed to locate offsets file: ") << offsetPath << std::endl;
-			return false;
-		}
-
+		std::cerr << XorStr("Failed to load offsets file") << std::endl;
+		return false;
 	}
 	YAML::Node offset = YAML::LoadFile(offsetPath);
 
