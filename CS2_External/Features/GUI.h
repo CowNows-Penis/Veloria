@@ -16,16 +16,10 @@
 #include "../Utils/Ext-String.hpp"
 
 ID3D11ShaderResourceView* Veloria = NULL;
-ID3D11ShaderResourceView* MenuButton1 = NULL;
-ID3D11ShaderResourceView* MenuButton2 = NULL;
-ID3D11ShaderResourceView* MenuButton3 = NULL;
-ID3D11ShaderResourceView* MenuButton4 = NULL;
 ID3D11ShaderResourceView* HitboxImage = NULL;
 ID3D11ShaderResourceView* AvatarImage = NULL;
 
 int LogoW = 0, LogoH = 0;
-int buttonW = 0;
-int buttonH = 0;
 int hitboxW = 0, hitboxH = 0;
 int avatarW = 0, avatarH = 0;
 // checkbox for hitbox
@@ -177,14 +171,10 @@ namespace GUI
 		if (AvatarImage == NULL)
 		{
 			// Updater::CheckForUpdates();
-			Gui.LoadTextureFromMemory(Images::VisualButton, sizeof Images::VisualButton, &MenuButton1, &buttonW, &buttonH);
-			Gui.LoadTextureFromMemory(Images::AimbotButton, sizeof Images::AimbotButton, &MenuButton2, &buttonW, &buttonH);
-			Gui.LoadTextureFromMemory(Images::MiscButton, sizeof Images::MiscButton, &MenuButton3, &buttonW, &buttonH);
-			Gui.LoadTextureFromMemory(Images::ConfigButton, sizeof Images::ConfigButton, &MenuButton4, &buttonW, &buttonH);
 			Gui.LoadTextureFromMemory(Images::ZekamashiImg, sizeof Images::ZekamashiImg, &HitboxImage, &hitboxW, &hitboxH);
-			StyleChanger::UpdateSkin(MenuConfig::Theme);
 			Gui.LoadTextureFromFile(wstringToChar(MenuConfig::AvatarPath), &AvatarImage, &avatarW, &avatarH);
 			Gui.LoadTextureFromMemory(Images::Veloria, sizeof Images::Veloria, &Veloria, &LogoW, &LogoH);
+			StyleChanger::UpdateSkin(MenuConfig::Theme);
 		}
 	}
 
@@ -328,7 +318,7 @@ namespace GUI
 		ImGuiWindowFlags Flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
 		ImGui::SetNextWindowPos({ (ImGui::GetIO().DisplaySize.x - 851.0f) / 2.0f, (ImGui::GetIO().DisplaySize.y - 514.0f) / 2.0f }, ImGuiCond_Once);
 
-		ImGui::Begin("Veloria", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Begin(u8"按DEL键显隐窗口", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 		{
 			ImGui::BeginTabBar("Cheat");
 			// esp menu
@@ -356,6 +346,9 @@ namespace GUI
 				ImGui::Checkbox(u8"外置准星", &CrosshairsCFG::ShowCrossHair);
 				ImGui::Checkbox(u8"快速急停", &MiscCFG::FastStop);
 				ImGui::Checkbox(u8"命中提示", &MiscCFG::HitMarker);
+				ImGui::NewLine();
+				if (ImGui::Button(u8"安全退出", { 125.f, 25.f }))
+					Init::Client::Exit();
 
 				ImGui::EndTabItem();
 			}
@@ -369,6 +362,11 @@ namespace GUI
 				ImGui::SameLine();
 				ImGui::Text(XorStr(u8"用户:\n%s"), MenuConfig::UserName);
 				ImGui::Text(u8"到期时间: 2099-1-1");
+				static float hue = 0.0f;
+				hue += 0.005f;
+				if (hue > 1.0f) hue -= 1.0f;
+				ImVec4 color = ImColor::HSV(hue, 1.0f, 1.0f);
+				ImGui::TextColored(color, XorStr(u8"Q群965602737"));
 			}
 
 		}ImGui::End();

@@ -77,7 +77,7 @@ namespace MenuConfig
 	inline ImColor FovCircleColor = ImColor(180, 255, 0, 255);
 
 	inline bool ShowMenu = true;
-	inline bool ShowConsole = true;
+	inline bool ShowConsole = false;
 
 	inline bool TriggerBot = false;
 	inline bool TriggerAlways = false;
